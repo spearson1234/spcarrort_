@@ -1,32 +1,35 @@
 function validateSignup() {
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-
+    const emailInput = document.getElementById('email');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
     const errorText = document.getElementById('errorText');
 
-    // Simple validation
-    if (!username || !email || !password || !confirmPassword) {
-        errorText.textContent = 'All fields are required.';
-    } else if (password !== confirmPassword) {
-        errorText.textContent = 'Passwords do not match.';
-    } else {
-        // Successful signup logic (you can replace this with your backend logic)
-        errorText.textContent = 'Signup successful!';
-        errorText.style.color = 'green';
-        // Additional logic (e.g., sending data to the server)
-        // ...
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        // Redirect to the home page after a successful signup
-        window.location.href = 'mainpage.html';
+    if (!emailRegex.test(emailInput.value)) {
+        errorText.textContent = 'Please enter a valid email address.';
+        return;
     }
+
+    if (usernameInput.value.trim() === '') {
+        errorText.textContent = 'Please enter a username.';
+        return;
+    }
+
+    if (passwordInput.value.length < 5) {
+        errorText.textContent = 'Password must be at least 5 characters long.';
+        return;
+    }
+
+    if (passwordInput.value !== confirmPasswordInput.value) {
+        errorText.textContent = 'Passwords do not match.';
+        return;
+    }
+
+    // If validation passes, you can proceed with signup logic
+
+    // Redirect to another page (replace 'target-page.html' with your desired page)
+    window.location.href = 'mainpage.html';
 }
 
-// Additional functions remain unchanged
-function clearForm() {
-    document.getElementById('signupForm').reset();
-    setTimeout(() => {
-        document.getElementById('errorText').textContent = '';
-    }, 3000);
-}
